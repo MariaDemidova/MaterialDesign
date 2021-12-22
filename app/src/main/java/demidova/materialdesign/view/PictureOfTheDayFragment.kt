@@ -1,6 +1,7 @@
 package demidova.materialdesign.view
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -18,21 +19,34 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
-import demidova.materialdesign.view.chips.ChipsFragment
+import demidova.materialdesign.view.chips.SettingsFragment
 import demidova.materialdesign.viewmodel.PictureOfTheDayState
 import demidova.materialdesign.viewmodel.PictureOfTheDayViewModel
 import java.util.*
 
-class PictureOfTheDayFragment : Fragment() {
+
+const val ThemeOne = 1
+const val ThemeSecond = 2
+
+class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
 
     private var _binding: FragmentMainBinding? = null
     val binding: FragmentMainBinding
         get() {
             return _binding!!
+
         }
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
+    }
+
+    private lateinit var parentActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        parentActivity =
+            requireActivity() as MainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +55,14 @@ class PictureOfTheDayFragment : Fragment() {
             renderData(it)
         })
         viewModel.sendServerRequest()
+
+        binding.btnThemeOne.setOnClickListener(this)
+        binding.btnThemeSecond.setOnClickListener(this)
+
+        when (parentActivity.getCurrentTheme()) {
+            1 -> binding.radioGroup.check(R.id.btnThemeOne)
+            2 -> binding.radioGroup.check(R.id.btnThemeSecond)
+        }
 
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -77,28 +99,36 @@ class PictureOfTheDayFragment : Fragment() {
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-//                     BottomSheetBehavior.STATE_DRAGGING -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_COLLAPSED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_EXPANDED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_HALF_EXPANDED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_HIDDEN -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_SETTLING -> TODO("not implemented")
+
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 Log.d("mylogs", "$slideOffset slideOffset")
 
-                //TODO("not implemented")
             }
         })
 
         setBottomAppBar()
     }
 
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.btnThemeOne -> {
+                parentActivity.setCurrentTheme(ThemeOne)
+                parentActivity.recreate() // применяем для всей активити и для всех дочерних фрагментов
+            }
+            R.id.btnThemeSecond -> {
+                parentActivity.setCurrentTheme(ThemeSecond)
+                parentActivity.recreate() // применяем для всей активити и для всех дочерних фрагментов
+            }
+        }
+
+    }
+
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
-            is PictureOfTheDayState.Error -> {//TODO(ДЗ)
+            is PictureOfTheDayState.Error -> { state.error.message
             }
             is PictureOfTheDayState.Loading -> {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
@@ -139,7 +169,7 @@ class PictureOfTheDayFragment : Fragment() {
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
-                    ChipsFragment.newInstance()
+                    SettingsFragment.newInstance()
                 ).commit()
             android.R.id.home -> BottomNavigationDrawerFragment().show(
                 requireActivity().supportFragmentManager,
