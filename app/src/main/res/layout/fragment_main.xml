@@ -11,29 +11,31 @@
         android:layout_height="match_parent"
         android:padding="10dp">
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/inputLayout"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:id="@+id/btnThemeOne"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/theme_one"
-                android:textColor="?colorSecondary" />
+                android:text="@string/text_for_theme_one" />
 
-            <RadioButton
-                android:id="@+id/btnThemeSecond"
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/theme_second"
-                android:textColor="?colorSecondary" />
-        </RadioGroup>
+                android:text="@string/text_for_theme_second" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_for_usual_theme" />
+        </com.google.android.material.tabs.TabLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayout"
@@ -68,7 +70,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             app:srcCompat="@drawable/ic_no_photo_vector" />
 
         <com.google.android.material.chip.Chip
@@ -77,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="28dp"
-            android:text="Yesterday"
+            android:text="@string/yesterday"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -89,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginTop="28dp"
-            android:text="Today"
+            android:text="@string/today"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.125"
             app:layout_constraintStart_toEndOf="@+id/yesterday_btn"
@@ -102,7 +103,7 @@
             android:layout_marginStart="44dp"
 
             android:layout_marginTop="28dp"
-            android:text="Two days Ago"
+            android:text="@string/two_days_ago"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/today_btn"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -110,7 +111,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include android:id="@+id/includeBottomSheet" layout="@layout/bottom_sheet_layout" />
+    <include
+        android:id="@+id/includeBottomSheet"
+        layout="@layout/bottom_sheet_layout" />
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -128,7 +131,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orangeTheme"
         app:layout_anchor="@id/bottom_app_bar"
-        app:srcCompat="@drawable/ic_plus_fab"
-        />
+        app:srcCompat="@drawable/ic_plus_fab" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,15 +1,14 @@
 package demidova.materialdesign
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import demidova.materialdesign.databinding.ActivityMainBinding
 import demidova.materialdesign.view.PictureOfTheDayFragment
-import java.util.*
 
 const val ThemeOne = 1
 const val ThemeSecond = 2
+const val ThemeUsual = 3
 
 class MainActivity : AppCompatActivity()  {
 
@@ -23,6 +22,10 @@ class MainActivity : AppCompatActivity()  {
 
         setTheme(getRealStyle(getCurrentTheme()))
         binding =  ActivityMainBinding.inflate(layoutInflater)
+
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//            WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.root)
 
         if(savedInstanceState==null){
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity()  {
         return when (currentTheme) {
             ThemeOne -> R.style.ThemeOne
             ThemeSecond -> R.style.ThemeSecond
+            ThemeUsual -> R.style.Theme_MaterialDesign
             else -> 0
         }
     }

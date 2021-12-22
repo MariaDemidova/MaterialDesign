@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
@@ -27,8 +29,9 @@ import java.util.*
 
 const val ThemeOne = 1
 const val ThemeSecond = 2
+const val ThemeUsual = 3
 
-class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
+class PictureOfTheDayFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     val binding: FragmentMainBinding
@@ -36,6 +39,8 @@ class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
             return _binding!!
 
         }
+    private val KEY_SP = "sp"
+    private val KEY_TAB_POSITION = "tab_position"
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
@@ -56,13 +61,37 @@ class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
         })
         viewModel.sendServerRequest()
 
-        binding.btnThemeOne.setOnClickListener(this)
-        binding.btnThemeSecond.setOnClickListener(this)
+        binding.tabs.getTabAt(getTabPosition())?.select()
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> {
+                        parentActivity.setCurrentTheme(ThemeOne)
+                        setTabPosition(0)
+                        parentActivity.recreate()
 
-        when (parentActivity.getCurrentTheme()) {
-            1 -> binding.radioGroup.check(R.id.btnThemeOne)
-            2 -> binding.radioGroup.check(R.id.btnThemeSecond)
-        }
+                    }
+                    1 -> {
+                        parentActivity.setCurrentTheme(ThemeSecond)
+                        setTabPosition(1)
+                        parentActivity.recreate()
+                    }
+                    2 -> {
+                        parentActivity.setCurrentTheme(ThemeUsual)
+                        setTabPosition(2)
+                        parentActivity.recreate()
+                    }
+                }
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+        })
 
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -112,23 +141,10 @@ class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
         setBottomAppBar()
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.btnThemeOne -> {
-                parentActivity.setCurrentTheme(ThemeOne)
-                parentActivity.recreate() // применяем для всей активити и для всех дочерних фрагментов
-            }
-            R.id.btnThemeSecond -> {
-                parentActivity.setCurrentTheme(ThemeSecond)
-                parentActivity.recreate() // применяем для всей активити и для всех дочерних фрагментов
-            }
-        }
-
-    }
-
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
-            is PictureOfTheDayState.Error -> { state.error.message
+            is PictureOfTheDayState.Error -> {
+                state.error.message
             }
             is PictureOfTheDayState.Loading -> {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
@@ -249,5 +265,19 @@ class PictureOfTheDayFragment : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setTabPosition(currentTheme: Int) {
+        val sharedPreferences =
+            requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt(KEY_TAB_POSITION, currentTheme)
+        editor.apply()
+    }
+
+    fun getTabPosition(): Int {
+        val sharedPreferences =
+            requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getInt(KEY_TAB_POSITION, 0)
     }
 }
