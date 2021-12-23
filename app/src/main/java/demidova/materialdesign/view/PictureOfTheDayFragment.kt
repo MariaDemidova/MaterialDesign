@@ -21,6 +21,8 @@ import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
+import demidova.materialdesign.view.api.ApiActivity
+import demidova.materialdesign.view.api.ApiBottomActivity
 import demidova.materialdesign.view.chips.SettingsFragment
 import demidova.materialdesign.viewmodel.PictureOfTheDayState
 import demidova.materialdesign.viewmodel.PictureOfTheDayViewModel
@@ -181,7 +183,12 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
+            R.id.api_activity -> {
+                startActivity(Intent(requireContext(), ApiActivity::class.java))
+            }
+            R.id.api_bottom_activity -> {
+                startActivity(Intent(requireContext(), ApiBottomActivity::class.java))
+            }
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
