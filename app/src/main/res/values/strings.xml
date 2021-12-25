@@ -23,8 +23,9 @@
     <string name="text_for_theme_one">Оранжево</string>
     <string name="text_for_theme_second">Зеленее!</string>
     <string name="text_for_usual_theme">Обычно</string>
-    <string name="DoingMyHW">DoingMyHW</string>
     <string name="done">Done</string>
-    <string name="wtf">WTF</string>
-    <string name="hmmm">Hmmm</string>
+    <string name="think">Think</string>
+    <string name="wht">WHT</string>
+    <string name="univers">Univers</string>
+
 </resources>

@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,7 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
-import demidova.materialdesign.view.api.ApiActivity
+import demidova.materialdesign.view.univers.ApiActivity
 import demidova.materialdesign.view.api.ApiBottomActivity
 import demidova.materialdesign.view.chips.SettingsFragment
 import demidova.materialdesign.viewmodel.PictureOfTheDayState
@@ -33,7 +32,7 @@ const val ThemeOne = 1
 const val ThemeSecond = 2
 const val ThemeUsual = 3
 
-class PictureOfTheDayFragment : Fragment() {
+class PictureOfTheDayFragment() : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     val binding: FragmentMainBinding
@@ -287,4 +286,5 @@ class PictureOfTheDayFragment : Fragment() {
             requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
         return sharedPreferences.getInt(KEY_TAB_POSITION, 0)
     }
+
 }

@@ -14,4 +14,6 @@ interface PictureOfTheDayAPI {
         @Query("api_key") apiKey: String,
         @Query("date") date: String
     ): Call<PictureOfTheDayResponseData>
+
+
 }

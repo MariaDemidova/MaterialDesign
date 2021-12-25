@@ -3,15 +3,15 @@
     <item
         android:id="@+id/bottom_view_questions"
         android:icon="@drawable/ic_qestion"
-        android:title="WHT"/>
+        android:title="@string/wht"/>
     <item
         android:id="@+id/bottom_view_think"
         android:icon="@drawable/ic_think"
-        android:title="Think" />
+        android:title="@string/think" />
 
     <item
         android:id="@+id/bottom_view_done"
         android:icon="@drawable/ic_done"
-        android:title="Done" />
+        android:title="@string/done" />
 
 </menu>
