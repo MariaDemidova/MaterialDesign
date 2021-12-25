@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/bottom_view_earth"
-        android:icon="@drawable/ic_earth"
-        android:title="Earth" />
+        android:id="@+id/bottom_view_questions"
+        android:icon="@drawable/ic_qestion"
+        android:title="WHT"/>
+    <item
+        android:id="@+id/bottom_view_think"
+        android:icon="@drawable/ic_think"
+        android:title="Think" />
 
     <item
-        android:id="@+id/bottom_view_mars"
-        android:icon="@drawable/ic_mars"
-        android:title="Mars" />
-
-    <item
-        android:id="@+id/bottom_view_system"
-        android:icon="@drawable/ic_system"
-        android:title="System" />
+        android:id="@+id/bottom_view_done"
+        android:icon="@drawable/ic_done"
+        android:title="Done" />
 
 </menu>

@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/api_activity"
-        android:icon="@drawable/ic_telescope"
-        android:title="@string/favourite"
+        android:icon="@drawable/ic_baseline_menu_book_24"
+        android:title="@string/DoingMyHW"
         app:showAsAction="ifRoom" />
 
     <item

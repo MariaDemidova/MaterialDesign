@@ -15,6 +15,7 @@ class ApiActivity:AppCompatActivity() {
         binding = ActivityApiBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.viewPager.adapter = ViewPagerAdapter(this)
+
         TabLayoutMediator(binding.tabLayout,binding.viewPager, object : TabLayoutMediator.TabConfigurationStrategy{
             override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
             }
@@ -24,15 +25,13 @@ class ApiActivity:AppCompatActivity() {
         setCustomTabs()
     }
 
-
-
     private fun setCustomTabs() {
         binding.tabLayout.getTabAt(0)?.customView =
-            layoutInflater.inflate(R.layout.activity_api_tabitem_earth, null)
+            layoutInflater.inflate(R.layout.activity_api_tabitem_questions, null)
         binding.tabLayout.getTabAt(1)?.customView =
-            layoutInflater.inflate(R.layout.activity_api_tabitem_mars, null)
+            layoutInflater.inflate(R.layout.activity_api_tabitem_think, null)
         binding.tabLayout.getTabAt(2)?.customView =
-            layoutInflater.inflate(R.layout.activity_api_tabitem_system, null)
+            layoutInflater.inflate(R.layout.activity_api_tabitem_done, null)
     }
 
 }

@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import demidova.materialdesign.R
 
 
-class EarthFragment:Fragment() {
+class QuestionFragment:Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_earth,container,false)
+        return inflater.inflate(R.layout.fragment_questions,container,false)
     }
 }

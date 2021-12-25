@@ -16,19 +16,19 @@ class ApiBottomActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_view_earth -> {
+                R.id.bottom_view_questions -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, EarthFragment()).commit()
+                        .replace(R.id.container, QuestionFragment()).commit()
                     true
                 }
-                R.id.bottom_view_mars -> {
+                R.id.bottom_view_think -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, MarsFragment()).commit()
+                        .replace(R.id.container, ThinkFragment()).commit()
                     true
                 }
-                R.id.bottom_view_system -> {
+                R.id.bottom_view_done -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, SystemFragment()).commit()
+                        .replace(R.id.container, DoneFragment()).commit()
                     true
                 }
                 else -> {
@@ -36,11 +36,13 @@ class ApiBottomActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_earth
-        val badge = binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_mars)
-        badge.number = 120
-        badge.badgeGravity = BadgeDrawable.TOP_END
-        badge.maxCharacterCount = 3
+        binding.bottomNavigationView.selectedItemId = R.id.bottom_view_questions
+        with(binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_think)){
+            number = 5
+            badgeGravity = BadgeDrawable.TOP_END
+            maxCharacterCount = 3
+        }
+
     }
 
 
