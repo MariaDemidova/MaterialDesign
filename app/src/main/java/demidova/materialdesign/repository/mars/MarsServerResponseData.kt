@@ -1,4 +1,4 @@
-package demidova.materialdesign.repository
+package demidova.materialdesign.repository.mars
 
 import com.google.gson.annotations.SerializedName
 

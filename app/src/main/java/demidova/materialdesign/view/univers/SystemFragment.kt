@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import demidova.materialdesign.R
 
-
 class SystemFragment:Fragment() {
 
     override fun onCreateView(

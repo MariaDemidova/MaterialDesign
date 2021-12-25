@@ -3,19 +3,13 @@ package demidova.materialdesign.view.univers
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.ActivityApiBinding
-import demidova.materialdesign.view.univers.ViewPagerAdapter
 import demidova.materialdesign.viewmodel.ApiActivityViewModel
 
-class ApiActivity:AppCompatActivity() {
+class ApiActivity : AppCompatActivity() {
     lateinit var binding: ActivityApiBinding
-
-    val ApiActivityViewModel by lazy {
-        ViewModelProvider(this).get(ApiActivityViewModel::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +17,8 @@ class ApiActivity:AppCompatActivity() {
         setContentView(binding.root)
         binding.viewPager.adapter = ViewPagerAdapter(this)
 
-        TabLayoutMediator(binding.tabLayout,binding.viewPager
+        TabLayoutMediator(
+            binding.tabLayout, binding.viewPager
         ) { tab, position -> }.attach()
 
         setCustomTabs()

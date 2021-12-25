@@ -4,9 +4,18 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleY="2"
+        app:srcCompat="@drawable/bksys" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_no_photo_vector" />
+        app:srcCompat="@drawable/system" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -31,8 +40,7 @@
             android:layout_marginLeft="7dp"
             android:layout_marginEnd="7dp"
             android:layout_marginRight="7dp"
-            android:src="@drawable/swipe_indicator_passive"
-             />
+            android:src="@drawable/swipe_indicator_passive" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -41,7 +49,8 @@
             android:layout_marginLeft="7dp"
             android:layout_marginEnd="7dp"
             android:layout_marginRight="7dp"
-            android:src="@drawable/swipe_indicator_active"
-             />
+            android:src="@drawable/swipe_indicator_active" />
+
     </LinearLayout>
+
 </FrameLayout>

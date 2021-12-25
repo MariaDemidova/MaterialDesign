@@ -3,7 +3,7 @@
     <item
         android:id="@+id/bottom_view_questions"
         android:icon="@drawable/ic_qestion"
-        android:title="@string/wht"/>
+        android:title="@string/wht" />
     <item
         android:id="@+id/bottom_view_think"
         android:icon="@drawable/ic_think"

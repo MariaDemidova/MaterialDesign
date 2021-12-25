@@ -74,7 +74,6 @@
             app:srcCompat="@drawable/ic_no_photo_vector" />
 
 
-
         <com.google.android.material.chip.Chip
             android:id="@+id/yesterday_btn"
             android:layout_width="wrap_content"

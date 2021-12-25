@@ -37,7 +37,7 @@ class ApiBottomActivity : AppCompatActivity() {
             }
         }
         binding.bottomNavigationView.selectedItemId = R.id.bottom_view_questions
-        with(binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_think)){
+        with(binding.bottomNavigationView.getOrCreateBadge(R.id.bottom_view_think)) {
             number = 5
             badgeGravity = BadgeDrawable.TOP_END
             maxCharacterCount = 3
