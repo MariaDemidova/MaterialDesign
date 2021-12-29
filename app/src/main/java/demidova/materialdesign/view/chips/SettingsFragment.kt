@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
-import demidova.materialdesign.databinding.FragmentChipsBinding
+import com.google.android.material.tabs.TabLayout
+import demidova.materialdesign.databinding.FragmentSettingsBinding
 
 
-class ChipsFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private var _binding: FragmentChipsBinding? = null
-    val binding: FragmentChipsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    val binding: FragmentSettingsBinding
         get() {
             return _binding!!
         }
@@ -22,7 +23,7 @@ class ChipsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentChipsBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,12 +38,31 @@ class ChipsFragment : Fragment() {
         binding.chipForDelete.setOnCloseIconClickListener {
             binding.chipForDelete.isChecked = false
         }
+
+
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> binding.tabs.getTabAt(0)!!.text = "1"
+                    1 -> binding.tabs.getTabAt(1)!!.text = "2"
+                    2 -> binding.tabs.getTabAt(2)!!.text = "3"
+                }
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+        })
     }
 
     companion object {
         @JvmStatic
         fun newInstance() =
-            ChipsFragment()
+            SettingsFragment()
     }
 
     override fun onDestroy() {

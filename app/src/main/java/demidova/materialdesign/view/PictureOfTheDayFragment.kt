@@ -1,6 +1,7 @@
 package demidova.materialdesign.view
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,13 +17,19 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
-import demidova.materialdesign.view.chips.ChipsFragment
+import demidova.materialdesign.view.chips.SettingsFragment
 import demidova.materialdesign.viewmodel.PictureOfTheDayState
 import demidova.materialdesign.viewmodel.PictureOfTheDayViewModel
 import java.util.*
+
+
+const val ThemeOne = 1
+const val ThemeSecond = 2
+const val ThemeUsual = 3
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -29,10 +37,21 @@ class PictureOfTheDayFragment : Fragment() {
     val binding: FragmentMainBinding
         get() {
             return _binding!!
+
         }
+    private val KEY_SP = "sp"
+    private val KEY_TAB_POSITION = "tab_position"
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
+    }
+
+    private lateinit var parentActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        parentActivity =
+            requireActivity() as MainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +60,38 @@ class PictureOfTheDayFragment : Fragment() {
             renderData(it)
         })
         viewModel.sendServerRequest()
+
+        binding.tabs.getTabAt(getTabPosition())?.select()
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when (tab.position) {
+                    0 -> {
+                        parentActivity.setCurrentTheme(ThemeOne)
+                        setTabPosition(0)
+                        parentActivity.recreate()
+
+                    }
+                    1 -> {
+                        parentActivity.setCurrentTheme(ThemeSecond)
+                        setTabPosition(1)
+                        parentActivity.recreate()
+                    }
+                    2 -> {
+                        parentActivity.setCurrentTheme(ThemeUsual)
+                        setTabPosition(2)
+                        parentActivity.recreate()
+                    }
+                }
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+
+            }
+        })
 
         binding.inputLayout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
@@ -77,19 +128,13 @@ class PictureOfTheDayFragment : Fragment() {
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-//                     BottomSheetBehavior.STATE_DRAGGING -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_COLLAPSED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_EXPANDED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_HALF_EXPANDED -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_HIDDEN -> TODO("not implemented")
-//                     BottomSheetBehavior.STATE_SETTLING -> TODO("not implemented")
+
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 Log.d("mylogs", "$slideOffset slideOffset")
 
-                //TODO("not implemented")
             }
         })
 
@@ -98,7 +143,8 @@ class PictureOfTheDayFragment : Fragment() {
 
     private fun renderData(state: PictureOfTheDayState) {
         when (state) {
-            is PictureOfTheDayState.Error -> {//TODO(ДЗ)
+            is PictureOfTheDayState.Error -> {
+                state.error.message
             }
             is PictureOfTheDayState.Loading -> {
                 binding.imageView.load(R.drawable.ic_no_photo_vector)
@@ -139,7 +185,7 @@ class PictureOfTheDayFragment : Fragment() {
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
-                    ChipsFragment.newInstance()
+                    SettingsFragment.newInstance()
                 ).commit()
             android.R.id.home -> BottomNavigationDrawerFragment().show(
                 requireActivity().supportFragmentManager,
@@ -219,5 +265,19 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun setTabPosition(currentTheme: Int) {
+        val sharedPreferences =
+            requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt(KEY_TAB_POSITION, currentTheme)
+        editor.apply()
+    }
+
+    fun getTabPosition(): Int {
+        val sharedPreferences =
+            requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
+        return sharedPreferences.getInt(KEY_TAB_POSITION, 0)
     }
 }

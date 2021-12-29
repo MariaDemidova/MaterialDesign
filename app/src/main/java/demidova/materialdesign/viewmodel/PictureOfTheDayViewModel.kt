@@ -81,11 +81,8 @@ class PictureOfTheDayViewModel(
     private fun takeDate(count: Int): String {
         val currentDate = Calendar.getInstance()
         currentDate.add(Calendar.DAY_OF_MONTH, count)
-
         Log.d("gopa", currentDate.time.toString())
-
         var format1 = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
         return format1.format(currentDate.time)
     }
 }
