@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import demidova.materialdesign.BuildConfig
+import demidova.materialdesign.repository.PhotosRetrofitImpl
 import demidova.materialdesign.repository.PictureOfTheDayResponseData
-import demidova.materialdesign.repository.PictureOfTheDayRetrofitImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,7 +15,7 @@ import java.util.*
 
 class PictureOfTheDayViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayState> = MutableLiveData(),
-    private val retrofitImpl: PictureOfTheDayRetrofitImpl = PictureOfTheDayRetrofitImpl()
+    private val retrofitImpl: PhotosRetrofitImpl = PhotosRetrofitImpl()
 ) : ViewModel() {
 
     fun getData(): LiveData<PictureOfTheDayState> {

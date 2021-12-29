@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,6 +20,8 @@ import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
+import demidova.materialdesign.view.univers.ApiActivity
+import demidova.materialdesign.view.api.ApiBottomActivity
 import demidova.materialdesign.view.chips.SettingsFragment
 import demidova.materialdesign.viewmodel.PictureOfTheDayState
 import demidova.materialdesign.viewmodel.PictureOfTheDayViewModel
@@ -31,7 +32,7 @@ const val ThemeOne = 1
 const val ThemeSecond = 2
 const val ThemeUsual = 3
 
-class PictureOfTheDayFragment : Fragment() {
+class PictureOfTheDayFragment() : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     val binding: FragmentMainBinding
@@ -181,7 +182,12 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
+            R.id.api_activity -> {
+                startActivity(Intent(requireContext(), ApiActivity::class.java))
+            }
+            R.id.api_bottom_activity -> {
+                startActivity(Intent(requireContext(), ApiBottomActivity::class.java))
+            }
             R.id.app_bar_settings -> requireActivity().supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
@@ -280,4 +286,5 @@ class PictureOfTheDayFragment : Fragment() {
             requireContext().getSharedPreferences(KEY_SP, AppCompatActivity.MODE_PRIVATE)
         return sharedPreferences.getInt(KEY_TAB_POSITION, 0)
     }
+
 }

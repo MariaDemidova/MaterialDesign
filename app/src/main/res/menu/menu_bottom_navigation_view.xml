@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_view_questions"
+        android:icon="@drawable/ic_qestion"
+        android:title="@string/wht" />
+    <item
+        android:id="@+id/bottom_view_think"
+        android:icon="@drawable/ic_think"
+        android:title="@string/think" />
+
+    <item
+        android:id="@+id/bottom_view_done"
+        android:icon="@drawable/ic_done"
+        android:title="@string/done" />
+
+</menu>
