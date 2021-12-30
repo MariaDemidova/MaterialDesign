@@ -43,9 +43,12 @@ class PictureOfTheDayFragment() : Fragment() {
     private val KEY_SP = "sp"
     private val KEY_TAB_POSITION = "tab_position"
 
+    private var isMain = true
+
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
     }
+
 
     private lateinit var parentActivity: MainActivity
 
@@ -123,7 +126,9 @@ class PictureOfTheDayFragment() : Fragment() {
         }
 
         val behavior = BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
-        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
 
         behavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -201,8 +206,9 @@ class PictureOfTheDayFragment() : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private var isMain = true
+
     private fun setBottomAppBar() {
+
         val context = activity as MainActivity
         context.setSupportActionBar(binding.bottomAppBar)
         setHasOptionsMenu(true)
