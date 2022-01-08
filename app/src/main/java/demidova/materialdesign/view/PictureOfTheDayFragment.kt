@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
+import demidova.materialdesign.databinding.FragmentMainStartBinding
 import demidova.materialdesign.view.univers.ApiActivity
 import demidova.materialdesign.view.api.ApiBottomActivity
 import demidova.materialdesign.view.chips.SettingsFragment
@@ -34,8 +35,8 @@ const val ThemeUsual = 3
 
 class PictureOfTheDayFragment() : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    val binding: FragmentMainBinding
+    private var _binding: FragmentMainStartBinding? = null
+    val binding: FragmentMainStartBinding
         get() {
             return _binding!!
 
@@ -176,7 +177,7 @@ class PictureOfTheDayFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 

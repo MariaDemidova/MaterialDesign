@@ -9,6 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.BottomNavigationLayoutBinding
 import demidova.materialdesign.view.constraint.ConstraintFragment
+import demidova.materialdesign.view.coordinator.CoordinatorFragment
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -38,7 +39,8 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
                         .replace(R.id.container, ConstraintFragment.newInstance()).addToBackStack("").commit()
                 }
                 R.id.navigation_two -> {
-                    Toast.makeText(context, "2", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, CoordinatorFragment.newInstance()).addToBackStack("").commit()
                 }
             }
             dismiss()

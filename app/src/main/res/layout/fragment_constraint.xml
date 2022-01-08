@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gb.material_1507_1544_3_1.view.chips.SettingsFragment">
+>
 
     <Button
         android:id="@+id/parentSDuper"
