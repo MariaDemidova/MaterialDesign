@@ -9,4 +9,9 @@
         android:icon="@drawable/ic_send"
         android:title="@string/screen2" />
 
+    <item
+        android:id="@+id/navigation_three"
+        android:icon="@drawable/ic_send"
+        android:title="@string/screen3" />
+
 </menu>

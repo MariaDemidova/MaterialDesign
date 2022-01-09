@@ -40,5 +40,6 @@
         "и это тоже надо было учитывать."</string>
     <string name="screen1">Constraint</string>
     <string name="screen2">Coordinator</string>
+    <string name="screen3">Animations</string>
 
 </resources>
