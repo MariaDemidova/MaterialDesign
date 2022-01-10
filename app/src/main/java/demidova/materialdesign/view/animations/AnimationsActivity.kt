@@ -1,32 +1,32 @@
 package demidova.materialdesign.view.animations
 
+import android.animation.ObjectAnimator
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.*
 import androidx.transition.Fade.IN
 import demidova.materialdesign.R
-
-
 import demidova.materialdesign.databinding.ActivityAnimationsBinding
 
+private const val duration = 5000L
 
 class AnimationsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnimationsBinding
     private var isExpand = false
-    private var isClick = false
-
+    private var isDirectionRight = false
+    private val smaller = "Меньше"
+    private val bigger = "Больше"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,29 +34,45 @@ class AnimationsActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.recyclerView.adapter = Adapter()
 
-        binding.imageView.setOnClickListener {
+        val titles: MutableList<String> = ArrayList()
+        for (i in 0..5) {
+            titles.add("Item $i")
+        }
 
-            isExpand = !isExpand
+        binding.buttonTransitions.setOnClickListener {
+            binding.transitionsContainer.animate()
+                .alpha(1f)
+                .setDuration(3000)
+            val cb = ChangeBounds()
+            cb.duration = 2000
+            TransitionManager.beginDelayedTransition(binding.transitionsContainer, cb)
+            titles.shuffle()
 
-            val params = binding.imageView.layoutParams as FrameLayout.LayoutParams
+            binding.transitionsContainer.removeAllViews()
+            titles.forEach {
+                binding.transitionsContainer.addView(ImageView(this).apply {
 
-            val transitionSet = TransitionSet()
-            val transitionCB = ChangeBounds()
-            val transitionImage = ChangeImageTransform()
-            transitionCB.duration = 2000
-            transitionImage.duration = 2000
-            transitionSet.addTransition(transitionCB)
-            transitionSet.addTransition(transitionImage)
-            TransitionManager.beginDelayedTransition(binding.container,transitionSet)
-
-            if (isExpand) {
-                binding.imageView.scaleType = ImageView.ScaleType.CENTER
-               // params.height = FrameLayout.LayoutParams.MATCH_PARENT
-            } else {
-                binding.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                params.height = FrameLayout.LayoutParams.WRAP_CONTENT
+                    setBackgroundResource(R.drawable.btn_moon)
+                    ViewCompat.setTransitionName(this, it)
+                    setOnClickListener {
+                        visibility = View.GONE
+                    }
+                })
             }
-            binding.imageView.layoutParams = params
+            binding.imageView.animate()
+                .alpha(0.4f)
+                .setDuration(3000)
+        }
+
+        binding.btnMove.setOnClickListener {
+            changePictureSize()
+            moveButton()
+
+        }
+
+        binding.imageView.setOnClickListener {
+            changePictureSize()
+            moveButton()
         }
     }
 
@@ -70,7 +86,7 @@ class AnimationsActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.itemView.setOnClickListener {
-                isClick = !isClick
+
                 val button = it as ImageButton
 
                 val explodeTransition = Explode()
@@ -95,15 +111,24 @@ class AnimationsActivity : AppCompatActivity() {
                         return rect
                     }
                 }
-
                 setTransition.addTransition(fadeTransition)
                 setTransition.addTransition(explodeTransition)
 
                 TransitionManager.beginDelayedTransition(binding.container, fadeTransitionImage)
                 binding.imageView.visibility = View.VISIBLE
+                binding.btnMove.visibility = View.VISIBLE
+                binding.buttonTransitions.visibility = View.VISIBLE
                 TransitionManager.beginDelayedTransition(binding.recyclerView, setTransition)
+
                 binding.recyclerView.adapter = null
-               // binding.recyclerView.visibility = View.GONE
+                ObjectAnimator.ofFloat(it, "rotation", 0f, 540f)
+                    .setDuration(duration).start()
+
+                ObjectAnimator.ofFloat(it, "scaleX", it.scaleX, 0f)
+                    .setDuration(duration).start()
+
+                ObjectAnimator.ofFloat(it, "scaleY", it.scaleY, 0f)
+                    .setDuration(duration).start()
             }
         }
 
@@ -114,4 +139,64 @@ class AnimationsActivity : AppCompatActivity() {
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+    private fun changePictureSize() {
+        isExpand = !isExpand
+
+
+        val params = binding.imageView.layoutParams as FrameLayout.LayoutParams
+        val transitionSet = TransitionSet()
+        val transitionCB = ChangeBounds()
+        val transitionImage = ChangeImageTransform()
+        transitionCB.duration = 2000
+        transitionImage.duration = 2000
+        transitionSet.addTransition(transitionCB)
+        transitionSet.addTransition(transitionImage)
+        TransitionManager.beginDelayedTransition(binding.container, transitionSet)
+
+        if (isExpand) {
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER
+        } else {
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+            params.height = FrameLayout.LayoutParams.WRAP_CONTENT
+        }
+        binding.imageView.animate()
+            .alpha(1f)
+            .setDuration(3000)
+
+        binding.transitionsContainer.animate()
+            .alpha(0f)
+            .setDuration(3000)
+
+        binding.imageView.layoutParams = params
+    }
+
+    private fun moveButton() {
+        isDirectionRight = !isDirectionRight
+
+        binding.transitionsContainer.animate()
+            .alpha(0f)
+            .setDuration(3000)
+
+        binding.imageView.animate()
+            .alpha(1f)
+            .setDuration(3000)
+
+        val params = binding.btnMove.layoutParams as FrameLayout.LayoutParams
+
+        val transition = ChangeBounds()
+        transition.duration = 3000
+        TransitionManager.beginDelayedTransition(binding.container, transition)
+
+        params.gravity = if (isDirectionRight) {
+            binding.btnMove.text = bigger
+
+            Gravity.BOTTOM or Gravity.END
+        } else {
+            binding.btnMove.text = smaller
+
+            Gravity.BOTTOM or Gravity.START
+        }
+        binding.btnMove.layoutParams = params
+    }
 }

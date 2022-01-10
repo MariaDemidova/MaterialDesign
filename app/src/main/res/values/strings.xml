@@ -41,5 +41,7 @@
     <string name="screen1">Constraint</string>
     <string name="screen2">Coordinator</string>
     <string name="screen3">Animations</string>
+    <string name="push">Жми</string>
+    <string name="shuffle">Перемешать</string>
 
 </resources>
