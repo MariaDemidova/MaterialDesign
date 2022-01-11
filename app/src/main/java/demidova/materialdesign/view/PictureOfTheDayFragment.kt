@@ -20,6 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import demidova.materialdesign.MainActivity
 import demidova.materialdesign.R
 import demidova.materialdesign.databinding.FragmentMainBinding
+import demidova.materialdesign.databinding.FragmentMainStartBinding
 import demidova.materialdesign.view.univers.ApiActivity
 import demidova.materialdesign.view.api.ApiBottomActivity
 import demidova.materialdesign.view.chips.SettingsFragment
@@ -34,8 +35,8 @@ const val ThemeUsual = 3
 
 class PictureOfTheDayFragment() : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    val binding: FragmentMainBinding
+    private var _binding: FragmentMainStartBinding? = null
+    val binding: FragmentMainStartBinding
         get() {
             return _binding!!
 
@@ -43,9 +44,12 @@ class PictureOfTheDayFragment() : Fragment() {
     private val KEY_SP = "sp"
     private val KEY_TAB_POSITION = "tab_position"
 
+    private var isMain = true
+
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
     }
+
 
     private lateinit var parentActivity: MainActivity
 
@@ -123,7 +127,9 @@ class PictureOfTheDayFragment() : Fragment() {
         }
 
         val behavior = BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
-        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
 
         behavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -171,7 +177,7 @@ class PictureOfTheDayFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainStartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -201,8 +207,9 @@ class PictureOfTheDayFragment() : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private var isMain = true
+
     private fun setBottomAppBar() {
+
         val context = activity as MainActivity
         context.setSupportActionBar(binding.bottomAppBar)
         setHasOptionsMenu(true)
