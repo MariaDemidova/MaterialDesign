@@ -1,5 +1,6 @@
 package demidova.materialdesign.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import demidova.materialdesign.R
 import demidova.materialdesign.databinding.BottomNavigationLayoutBinding
 import demidova.materialdesign.view.constraint.ConstraintFragment
 import demidova.materialdesign.view.coordinator.CoordinatorFragment
+import demidova.materialdesign.view.recycle.RecyclerActivity
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
@@ -36,11 +38,16 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
             when (menuItem.itemId) {
                 R.id.navigation_one -> {
                     requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, ConstraintFragment.newInstance()).addToBackStack("").commit()
+                        .replace(R.id.container, ConstraintFragment.newInstance())
+                        .addToBackStack("").commit()
                 }
                 R.id.navigation_two -> {
                     requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, CoordinatorFragment.newInstance()).addToBackStack("").commit()
+                        .replace(R.id.container, CoordinatorFragment.newInstance())
+                        .addToBackStack("").commit()
+                }
+                R.id.navigation_three -> {
+                    startActivity(Intent(requireActivity(), RecyclerActivity::class.java))
                 }
             }
             dismiss()

@@ -34,5 +34,6 @@
     <color name="myPrimaty2">#00acc1</color>
     <color name="mySecondary1">#00acc1</color>
     <color name="mySecondary2">#f44336</color>
+    <color name="grayBckGrnd">#99858080</color>
 
 </resources>
