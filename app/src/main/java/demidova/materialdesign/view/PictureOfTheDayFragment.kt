@@ -3,6 +3,7 @@ package demidova.materialdesign.view
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -165,8 +166,13 @@ class PictureOfTheDayFragment() : Fragment() {
                 }
                 binding.includeBottomSheet.bottomSheetDescriptionHeader.text =
                     pictureOfTheDayResponseData.title
-                binding.includeBottomSheet.bottomSheetDescription.text =
-                    pictureOfTheDayResponseData.explanation
+
+                pictureOfTheDayResponseData.explanation?.let {
+                    binding.includeBottomSheet.bottomSheetDescription.text = it
+                    binding.includeBottomSheet.bottomSheetDescription.typeface = Typeface.createFromAsset(requireContext().assets,"Robus-BWqOd.otf" )
+                }
+
+
             }
         }
     }
