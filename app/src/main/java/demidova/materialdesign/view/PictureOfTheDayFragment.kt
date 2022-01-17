@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -45,6 +46,10 @@ class PictureOfTheDayFragment() : Fragment() {
     private val KEY_TAB_POSITION = "tab_position"
 
     private var isMain = true
+   private val behavior by lazy {
+       BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
+   }
+
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
         ViewModelProvider(this).get(PictureOfTheDayViewModel::class.java)
@@ -125,12 +130,6 @@ class PictureOfTheDayFragment() : Fragment() {
             })
             viewModel.sendServerRequestByTwoDaysAgo()
         }
-
-        val behavior = BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
-
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-
         behavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -216,7 +215,8 @@ class PictureOfTheDayFragment() : Fragment() {
 
         binding.fab.setOnClickListener {
             if (isMain) {
-                isMain = false
+                isMain = !isMain
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 binding.bottomAppBar.navigationIcon = null
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 binding.fab.setImageDrawable(
@@ -227,7 +227,8 @@ class PictureOfTheDayFragment() : Fragment() {
                 )
                 binding.bottomAppBar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
             } else {
-                isMain = true
+                isMain = !isMain
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
                 binding.bottomAppBar.navigationIcon =
                     ContextCompat.getDrawable(context, R.drawable.ic_hamburger_menu_bottom_bar)
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
