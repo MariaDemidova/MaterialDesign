@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 
 interface ItemTouchHelperAdapter {
-    fun onItemMove(fromPosition: Int, toPosition: Int, arrowUp: AppCompatImageView, arrowDown: AppCompatImageView)
+    fun onItemMove(fromPosition: Int, toPosition: Int)
     fun onItemDismiss(position: Int)
 }
 

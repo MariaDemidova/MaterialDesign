@@ -6,9 +6,17 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.SpannedString
+import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -47,9 +55,9 @@ class PictureOfTheDayFragment() : Fragment() {
     private val KEY_TAB_POSITION = "tab_position"
 
     private var isMain = true
-   private val behavior by lazy {
-       BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
-   }
+    private val behavior by lazy {
+        BottomSheetBehavior.from(binding.includeBottomSheet.bottomSheetContainer)
+    }
 
 
     private val viewModel: PictureOfTheDayViewModel by lazy {
@@ -164,15 +172,46 @@ class PictureOfTheDayFragment() : Fragment() {
                     error(R.drawable.ic_load_error_vector)
                     placeholder(R.drawable.ic_no_photo_vector)
                 }
-                binding.includeBottomSheet.bottomSheetDescriptionHeader.text =
-                    pictureOfTheDayResponseData.title
 
-                pictureOfTheDayResponseData.explanation?.let {
-                    binding.includeBottomSheet.bottomSheetDescription.text = it
-                    binding.includeBottomSheet.bottomSheetDescription.typeface = Typeface.createFromAsset(requireContext().assets,"Robus-BWqOd.otf" )
+                pictureOfTheDayResponseData.title?.let {
+                    val spannImg = SpannableString(it)
+
+                    for (i in spannImg.indices) {
+                        if (spannImg[i] == 'o') {
+                            spannImg.setSpan(
+                                ImageSpan(requireContext(), R.drawable.ic_mars),
+                                i,
+                                i + 1,
+                                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                            )
+                        }
+                    }
+                    binding.includeBottomSheet.bottomSheetDescriptionHeader.text = spannImg
                 }
 
+                pictureOfTheDayResponseData.explanation?.let {
+                    val spannStart = SpannableString(it)
+                    for (i in spannStart.indices) {
+                        if (spannStart[i] == 'A') {
+                            spannStart.setSpan(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        R.color.orangeTheme
+                                    )
+                                ), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                            )
+                        }
+                    }
 
+                    binding.includeBottomSheet.bottomSheetDescription.setText(
+                        spannStart,
+                        TextView.BufferType.SPANNABLE
+                    )
+
+                    binding.includeBottomSheet.bottomSheetDescription.typeface =
+                        Typeface.createFromAsset(requireContext().assets, "Robus-BWqOd.otf")
+                }
             }
         }
     }

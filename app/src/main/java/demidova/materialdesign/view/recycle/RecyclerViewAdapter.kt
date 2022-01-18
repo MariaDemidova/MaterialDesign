@@ -18,15 +18,11 @@ class RecyclerViewAdapter(
     private val noteDataList: MutableList<Pair<NoteData, Boolean>>,
     private val callbackListener: MyCallback
 ) : RecyclerView.Adapter<BaseViewHolder>(), ItemTouchHelperAdapter {
-    lateinit  var arrowUp: AppCompatImageView
-    lateinit  var arrowDown: AppCompatImageView
+
 
     fun appendItem() {
-
         noteDataList.add(generateItem())
-       // arrowDown.visibility =View.GONE
-       // notifyItemInserted(itemCount - 1)
-        notifyDataSetChanged()
+        notifyItemInserted(itemCount - 1)
     }
 
     private fun generateItem(): Pair<NoteData, Boolean> {
@@ -79,21 +75,7 @@ class RecyclerViewAdapter(
 
         override fun bind(data: Pair<NoteData, Boolean>) {
             ActivityRecyclerItemDogsBinding.bind(itemView).apply {
-                  arrowUp = moveItemUp
-                  arrowDown = moveItemDown
-
                 titleTextView.text = data.first.title
-
-                when (layoutPosition) {
-                    0 -> moveItemUp.visibility = View.GONE
-                    (itemCount - 1) -> moveItemDown.visibility = View.GONE
-
-                }
-
-//                for (i in 1..(layoutPosition - 2)) {
-//                    moveItemUp.visibility = View.VISIBLE
-//                    moveItemDown.visibility = View.VISIBLE
-//                }
 
                 noteImageView.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
@@ -105,10 +87,10 @@ class RecyclerViewAdapter(
                     removeItem()
                 }
                 moveItemDown.setOnClickListener {
-                    moveDown(arrowDown)
+                    moveDown()
                 }
                 moveItemUp.setOnClickListener {
-                    moveUp(arrowUp)
+                    moveUp()
                 }
                 DescriptionTextView.visibility = if (data.second) View.VISIBLE else View.GONE
 
@@ -136,34 +118,32 @@ class RecyclerViewAdapter(
             notifyItemChanged(layoutPosition)
         }
 
-        private fun moveUp(arrowUp: AppCompatImageView) {
+        private fun moveUp() {
             if (layoutPosition == 0) {
-                arrowUp.visibility = View.GONE
+                noteDataList.removeAt(layoutPosition).apply {
+                    noteDataList.add(itemCount , this)
+                    notifyItemMoved(layoutPosition, itemCount - 1)
+                }
             } else {
-                arrowUp.visibility = View.VISIBLE
                 noteDataList.removeAt(layoutPosition).apply {
                     noteDataList.add(layoutPosition - 1, this)
+                    notifyItemMoved(layoutPosition,layoutPosition - 1)
                 }
             }
-
-            // notifyItemMoved(layoutPosition, layoutPosition - 1)
-
-            notifyDataSetChanged()
         }
 
-        private fun moveDown(arrowDown: AppCompatImageView) {
-
-            if (layoutPosition == noteDataList.size - 1) {
-                arrowDown.visibility = View.GONE
-            } else {
+        private fun moveDown() {
+            if (layoutPosition == itemCount-1) {
+                noteDataList.removeAt(layoutPosition).apply {
+                    noteDataList.add(0, this)
+                    notifyItemMoved(layoutPosition, 0)
+                }
+            }else {
                 noteDataList.removeAt(layoutPosition).apply {
                     noteDataList.add(layoutPosition + 1, this)
-                    arrowDown.visibility = View.VISIBLE
+                    notifyItemMoved(layoutPosition, layoutPosition + 1)
                 }
             }
-            /// notifyItemMoved(layoutPosition, layoutPosition + 1)
-            notifyDataSetChanged()
-
         }
 
         override fun onItemSelected() {
@@ -178,20 +158,7 @@ class RecyclerViewAdapter(
     inner class CatsViewHolder(view: View) : BaseViewHolder(view), ItemTouchHelperViewHolder {
         override fun bind(data: Pair<NoteData, Boolean>) {
             ActivityRecyclerItemCatsBinding.bind(itemView).apply {
-                  arrowUp = moveItemUp
-                  arrowDown = moveItemDown
-
                 titleTextView.text = data.first.title
-
-                when (layoutPosition) {
-                    0 -> moveItemUp.visibility = View.GONE
-                    (itemCount - 1) -> moveItemDown.visibility = View.GONE
-                }
-
-                for (i in 1..(layoutPosition - 2)) {
-                    moveItemUp.visibility = View.VISIBLE
-                    moveItemDown.visibility = View.VISIBLE
-                }
 
                 noteImageView.setOnClickListener {
                     callbackListener.onClick(layoutPosition)
@@ -203,10 +170,10 @@ class RecyclerViewAdapter(
                     removeItem()
                 }
                 moveItemDown.setOnClickListener {
-                    moveDown(arrowDown)
+                    moveDown( )
                 }
                 moveItemUp.setOnClickListener {
-                    moveUp(arrowUp)
+                    moveUp( )
                 }
                 DescriptionTextView.visibility = if (data.second) View.VISIBLE else View.GONE
 
@@ -233,34 +200,32 @@ class RecyclerViewAdapter(
             notifyItemChanged(layoutPosition)
         }
 
-        private fun moveUp(arrowUp: AppCompatImageView) {
+        private fun moveUp() {
             if (layoutPosition == 0) {
-                arrowUp.visibility = View.GONE
+                noteDataList.removeAt(layoutPosition).apply {
+                    noteDataList.add(itemCount, this)
+                    notifyItemMoved(layoutPosition, itemCount - 1)
+                }
             } else {
-                arrowUp.visibility = View.VISIBLE
                 noteDataList.removeAt(layoutPosition).apply {
                     noteDataList.add(layoutPosition - 1, this)
+                    notifyItemMoved(layoutPosition,layoutPosition - 1)
                 }
             }
-
-            // notifyItemMoved(layoutPosition, layoutPosition - 1)
-
-            notifyDataSetChanged()
         }
 
-        private fun moveDown(arrowDown: AppCompatImageView) {
-
-            if (layoutPosition == noteDataList.size - 1) {
-                arrowDown.visibility = View.GONE
-            } else {
+        private fun moveDown() {
+            if (layoutPosition == itemCount-1) {
+                noteDataList.removeAt(layoutPosition).apply {
+                    noteDataList.add(0, this)
+                    notifyItemMoved(layoutPosition, 0)
+                }
+            }else {
                 noteDataList.removeAt(layoutPosition).apply {
                     noteDataList.add(layoutPosition + 1, this)
-                    arrowDown.visibility = View.VISIBLE
+                    notifyItemMoved(layoutPosition, layoutPosition + 1)
                 }
             }
-            /// notifyItemMoved(layoutPosition, layoutPosition + 1)
-            notifyDataSetChanged()
-
         }
 
         override fun onItemSelected() {
@@ -272,23 +237,11 @@ class RecyclerViewAdapter(
         }
     }
 
-    override fun onItemMove(
-        fromPosition: Int,
-        toPosition: Int,
-        arrowUp: AppCompatImageView,
-        arrowDown: AppCompatImageView
-    ) {
-
-        when (toPosition) {
-            0 -> arrowUp.visibility = View.GONE
-            noteDataList.size - 1 -> arrowDown.visibility = View.GONE
-        }
-
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
         noteDataList.removeAt(fromPosition).apply {
             noteDataList.add(toPosition, this)
         }
-       // notifyItemMoved(fromPosition, toPosition)
-        notifyDataSetChanged()
+        notifyItemMoved(fromPosition,toPosition)
     }
 
     override fun onItemDismiss(position: Int) {
