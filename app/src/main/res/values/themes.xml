@@ -18,6 +18,10 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="Theme.MaterialDesign.Splash">
+        <item name="android:windowBackground">@drawable/splash_background_drawable</item>
+    </style>
+
     <style name="CustomStyle">
         <item name="android:textColor">@color/color_for_customStyle_title</item>
     </style>
